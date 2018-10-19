@@ -213,7 +213,7 @@ class Email
      */
     public function setProtocol($protocol = null)
     {
-        if ($protocol === self::TLS) {
+        if ($protocol === self::SSL) {
             $this->isTLS = true;
         }
 
@@ -302,11 +302,12 @@ class Email
         $this->logs['CONNECTION'] = $this->getResponse();
         $this->logs['HELLO'][1] = $this->sendCommand('EHLO ' . $this->hostname);
 
-        if ($this->isTLS) {
-            $this->logs['STARTTLS'] = $this->sendCommand('STARTTLS');
-            stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-            $this->logs['HELLO'][2] = $this->sendCommand('EHLO ' . $this->hostname);
-        }
+        // 直接设置 SSL，故此处不需要进行设置的验证
+        // if ($this->isTLS) {
+        //     $this->logs['STARTTLS'] = $this->sendCommand('STARTTLS');
+        //     stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+        //     $this->logs['HELLO'][2] = $this->sendCommand('EHLO ' . $this->hostname);
+        // }
 
         $this->logs['AUTH'] = $this->sendCommand('AUTH LOGIN');
         $this->logs['USERNAME'] = $this->sendCommand(base64_encode($this->username));

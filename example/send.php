@@ -5,7 +5,7 @@ use Snipworks\Smtp\Email;
 require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 $mail = new Email('smtp.gmail.com', 587);
-$mail->setProtocol(Email::TLS)
+$mail->setProtocol(Email::SSL)
     ->setLogin('sender@example.com', 'P4ssW0rD!')
     ->setFrom('sender@example.com')
     ->setSubject('Test subject')
